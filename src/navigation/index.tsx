@@ -16,8 +16,8 @@ export default function Navigation() {
         headerShown: false,
         tabBarStyle: styles.tabBar,
       })}>
-      {homeTabRoutes.map(tabRoute => (
-        <Tab.Screen {...tabRoute} />
+      {homeTabRoutes.map((tabRoute, index) => (
+        <Tab.Screen {...tabRoute} key={index} />
       ))}
     </Tab.Navigator>
   );

@@ -4,7 +4,9 @@ import {darkTheme} from './dark';
 
 const getColor = () => {
   const theme: string = getLocalStorage('theme');
-  if (theme === 'light') return lightTheme.colors;
+  if (theme === 'light') {
+    return lightTheme.colors;
+  }
 
   return darkTheme.colors;
 };

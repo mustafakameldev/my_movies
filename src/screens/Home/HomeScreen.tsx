@@ -1,22 +1,30 @@
+import AppBar from '@components/molecules/AppBar';
+import Loader from '@components/molecules/Loader';
+import MainPoster from '@components/molecules/MainPoster';
+import MoviesCarousel from '@components/molecules/MoviesCarousel';
 import {useGetMovies} from '@hooks/useGetMovies';
 import AppScreen from '@providers/AppScreen';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
-import {RootStackParamList} from 'src/types/navigation.type';
-import Footer from './Footer';
-import {View} from 'react-native';
-import {getColor} from '@theme/index';
 
 const HomeScreen = () => {
-  const {navigate} =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const {data, isFetching, isLoading, refetch} = useGetMovies();
+  const {mainMovie, moviesList, isLoading} = useGetMovies();
 
   return (
     <AppScreen>
-      <View style={{backgroundColor: 'red', flex: 1}}></View>
-      {/* <Footer /> */}
+      <AppBar
+        title={'Diamond Mall'}
+        isAbsolute
+        rightIcon="search-outline"
+        leftIcon="reorder-four-outline"
+      />
+      {!isLoading ? (
+        <>
+          {mainMovie && <MainPoster {...mainMovie} />}
+          <MoviesCarousel movies={moviesList} />
+        </>
+      ) : (
+        <Loader isFull />
+      )}
     </AppScreen>
   );
 };

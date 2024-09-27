@@ -1,16 +1,16 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import AppScreen from '@providers/AppScreen';
 import {useNavigation} from '@react-navigation/native';
-import {RootStackParamList} from 'src/types/navigation.type';
+import React from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
 const SeeAllScreen = () => {
-  const {navigate} =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const {navigate} = useNavigation();
   return (
-    <View>
-      <Text>SeeAllScreen</Text>
-    </View>
+    <AppScreen>
+      <View>
+        <Text>SeeAllScreen</Text>
+      </View>
+    </AppScreen>
   );
 };
 

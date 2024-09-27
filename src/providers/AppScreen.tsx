@@ -1,3 +1,4 @@
+import {themeColor} from '@theme/index';
 import React, {FC, ReactNode, Suspense} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -18,4 +19,6 @@ const AppScreen: FC<ScreenProps> = ({children, safeTop = false}) => {
 
 export default AppScreen;
 
-const styles = StyleSheet.create({container: {flex: 1}});
+const styles = StyleSheet.create({
+  container: {flex: 1, backgroundColor: themeColor.background},
+});

@@ -7,5 +7,6 @@ export const darkTheme: Theme = {
     secondary: '#7E818B',
     background: '#12161D',
     text: '#F8F9FD',
+    gold: '#D1B071',
   },
 };

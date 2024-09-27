@@ -5,5 +5,6 @@ export interface Theme {
     secondary: string;
     text: string;
     background: string;
+    gold: string;
   };
 }
