@@ -20,7 +20,7 @@ const HomeScreen = () => {
       {!isLoading ? (
         <>
           {mainMovie && <MainPoster {...mainMovie} />}
-          <MoviesCarousel movies={moviesList} />
+          {moviesList?.length > 0 && <MoviesCarousel movies={moviesList} />}
         </>
       ) : (
         <Loader isFull />

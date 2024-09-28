@@ -1,19 +1,65 @@
+import Loader from '@components/molecules/Loader';
+import MoviesCard from '@components/molecules/MovieCard';
+import {useGetAllMovies} from '@hooks/useGetAllMovies';
 import AppScreen from '@providers/AppScreen';
-import {useNavigation} from '@react-navigation/native';
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {calcHight, calcWidth} from '@utils/layouts';
+import React, {useCallback} from 'react';
+import {FlatList, StyleSheet, View} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {Movie} from 'src/types/responses/movies';
 
 const SeeAllScreen = () => {
-  const {navigate} = useNavigation();
+  const {data, movies, isFetchingNextPage, fetchNextPage, hasNextPage} =
+    useGetAllMovies();
+  const {top} = useSafeAreaInsets();
+  const renderItem = useCallback(
+    ({item, index}: {item: Movie; index: number}) => (
+      <MoviesCard {...item} key={index} />
+    ),
+    [],
+  );
+  const onEndReached = () => {
+    if (data && !isFetchingNextPage && hasNextPage) {
+      fetchNextPage();
+    }
+  };
+
+  const renderFooter = () => {
+    if (!isFetchingNextPage) return null;
+    return (
+      <View style={styles.footer}>
+        <Loader />
+      </View>
+    );
+  };
   return (
     <AppScreen>
-      <View>
-        <Text>SeeAllScreen</Text>
-      </View>
+      <FlatList
+        data={movies}
+        renderItem={renderItem}
+        keyExtractor={(_, index) => index.toString()}
+        showsVerticalScrollIndicator={false}
+        numColumns={2}
+        contentContainerStyle={[{paddingTop: top}, styles.listContent]}
+        onEndReachedThreshold={0.01}
+        onEndReached={() => onEndReached()}
+        ListFooterComponent={renderFooter}
+      />
     </AppScreen>
   );
 };
 
 export default SeeAllScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  listContent: {
+    alignContent: 'center',
+    justifyContent: 'center',
+    marginHorizontal: calcWidth(6),
+    paddingBottom: calcHight(70),
+  },
+  footer: {
+    marginBottom: calcHight(20),
+    padding: calcWidth(10),
+  },
+});

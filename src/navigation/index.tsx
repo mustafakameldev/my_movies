@@ -5,6 +5,7 @@ import {TabBarIcon} from '@components/atoms/BottomTabIcon';
 import {themeColor} from '@theme/index';
 import {StyleSheet} from 'react-native';
 import {homeTabRoutes} from './routes';
+import {calcHight} from '@utils/layouts';
 export default function Navigation() {
   const Tab = createBottomTabNavigator();
   return (
@@ -15,6 +16,7 @@ export default function Navigation() {
         tabBarInactiveTintColor: themeColor.secondary,
         headerShown: false,
         tabBarStyle: styles.tabBar,
+        tabBarShowLabel: false,
       })}>
       {homeTabRoutes.map((tabRoute, index) => (
         <Tab.Screen {...tabRoute} key={index} />
@@ -30,6 +32,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     elevation: 0,
     shadowOpacity: 0,
-    height: 90,
+    height: calcHight(70),
   },
 });
