@@ -5,11 +5,7 @@ import {GetMoviesResponse} from 'src/types/responses/movies';
 import {useGetGenres} from './useGetGenres';
 
 export const useGetAllMovies = () => {
-  const {
-    genres,
-    isLoading: isGenresLoading,
-    isFetching: isGenresFetching,
-  } = useGetGenres();
+  const {genres, isLoading: isGenresLoading} = useGetGenres();
 
   const {
     fetchNextPage,
@@ -17,7 +13,8 @@ export const useGetAllMovies = () => {
     isFetchingNextPage,
     data,
     isLoading,
-    isFetching,
+    isError,
+    refetch,
   } = useInfiniteQuery<GetMoviesResponse>({
     queryKey: ['allMovies'],
     queryFn: async ({pageParam}) => {
@@ -40,6 +37,8 @@ export const useGetAllMovies = () => {
     fetchNextPage,
     isFetchingNextPage,
     hasNextPage,
-    isLoading: isGenresFetching || isGenresLoading || isLoading || isFetching,
+    isLoading: isGenresLoading || isLoading,
+    isError,
+    refetch,
   };
 };

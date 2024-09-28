@@ -1,3 +1,4 @@
+import ErrorMessage from '@components/molecules/Error';
 import Loader from '@components/molecules/Loader';
 import MoviesCard from '@components/molecules/MovieCard';
 import {useGetAllMovies} from '@hooks/useGetAllMovies';
@@ -9,8 +10,16 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Movie} from 'src/types/responses/movies';
 
 const SeeAllScreen = () => {
-  const {data, movies, isFetchingNextPage, fetchNextPage, hasNextPage} =
-    useGetAllMovies();
+  const {
+    data,
+    movies,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+    isError,
+    refetch,
+  } = useGetAllMovies();
   const {top} = useSafeAreaInsets();
   const renderItem = useCallback(
     ({item, index}: {item: Movie; index: number}) => (
@@ -34,17 +43,30 @@ const SeeAllScreen = () => {
   };
   return (
     <AppScreen>
-      <FlatList
-        data={movies}
-        renderItem={renderItem}
-        keyExtractor={(_, index) => index.toString()}
-        showsVerticalScrollIndicator={false}
-        numColumns={2}
-        contentContainerStyle={[{paddingTop: top}, styles.listContent]}
-        onEndReachedThreshold={0.01}
-        onEndReached={() => onEndReached()}
-        ListFooterComponent={renderFooter}
-      />
+      {isError ? (
+        <ErrorMessage
+          message="Something went wrong, please try again"
+          onPressRefresh={refetch}
+        />
+      ) : (
+        <>
+          {!isLoading ? (
+            <FlatList
+              data={movies}
+              renderItem={renderItem}
+              keyExtractor={(_, index) => index.toString()}
+              showsVerticalScrollIndicator={false}
+              numColumns={2}
+              contentContainerStyle={[{paddingTop: top}, styles.listContent]}
+              onEndReachedThreshold={0.01}
+              onEndReached={() => onEndReached()}
+              ListFooterComponent={renderFooter}
+            />
+          ) : (
+            <Loader isFull />
+          )}
+        </>
+      )}
     </AppScreen>
   );
 };

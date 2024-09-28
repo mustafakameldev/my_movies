@@ -11,10 +11,11 @@ export const useGetMovies = () => {
     isLoading: isGenresLoading,
     isFetching: isGenresFetching,
   } = useGetGenres();
-  const {data, isFetching, isLoading} = useQuery<GetMoviesResponse>({
-    queryKey: ['movies'],
-    queryFn: () => queryMovies.getMovies(),
-  });
+  const {data, isFetching, isLoading, isError, refetch} =
+    useQuery<GetMoviesResponse>({
+      queryKey: ['movies'],
+      queryFn: () => queryMovies.getMovies(),
+    });
 
   const {mainMovie, moviesList} = useMemo(() => {
     if (
@@ -40,5 +41,7 @@ export const useGetMovies = () => {
     isLoading: isLoading || isGenresLoading || isFetching || isGenresFetching,
     mainMovie,
     moviesList,
+    refetch,
+    isError,
   };
 };
